@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -104,17 +104,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, [state.token]);
 
-  // Load user on app start
-  useEffect(() => {
-    if (state.token) {
-      loadUser();
-    } else {
-      dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
-    }
-  }, []);
-
   // Load user function
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     try {
       const res = await axios.get('/api/auth/me');
       dispatch({
@@ -127,10 +118,19 @@ export const AuthProvider = ({ children }) => {
         payload: error.response?.data?.message || 'Authentication failed'
       });
     }
-  };
+  }, []);
+
+  // Load user on app start and when token changes
+  useEffect(() => {
+    if (state.token) {
+      loadUser();
+    } else {
+      dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
+    }
+  }, [state.token, loadUser]);
 
   // Login function
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     try {
       dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
       
@@ -152,10 +152,10 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
   // Register function
-  const register = async (userData) => {
+  const register = useCallback(async (userData) => {
     try {
       dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
       
@@ -177,21 +177,21 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
   // Google OAuth login
-  const googleLogin = () => {
+  const googleLogin = useCallback(() => {
     window.location.href = '/api/auth/google';
-  };
+  }, []);
 
   // Logout function
-  const logout = () => {
+  const logout = useCallback(() => {
     dispatch({ type: AUTH_ACTIONS.LOGOUT });
     toast.success('Logged out successfully');
-  };
+  }, []);
 
   // Update profile function
-  const updateProfile = async (profileData) => {
+  const updateProfile = useCallback(async (profileData) => {
     try {
       const res = await axios.put('/api/auth/profile', profileData);
       
@@ -207,10 +207,10 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
   // Change password function
-  const changePassword = async (passwordData) => {
+  const changePassword = useCallback(async (passwordData) => {
     try {
       await axios.put('/api/auth/password', passwordData);
       toast.success('Password changed successfully!');
@@ -220,25 +220,25 @@ export const AuthProvider = ({ children }) => {
       toast.error(message);
       return { success: false, message };
     }
-  };
+  }, []);
 
-  // Clear errors function
-  const clearErrors = () => {
+  // Clear errors function (stable identity)
+  const clearErrors = useCallback(() => {
     dispatch({ type: AUTH_ACTIONS.CLEAR_ERRORS });
-  };
+  }, []);
 
   // Check if user has specific role
-  const hasRole = (role) => {
+  const hasRole = useCallback((role) => {
     return state.user && state.user.userType === role;
-  };
+  }, [state.user]);
 
   // Check if user can access route
-  const canAccess = (allowedRoles) => {
+  const canAccess = useCallback((allowedRoles) => {
     if (!state.isAuthenticated) return false;
     return allowedRoles.includes(state.user.userType);
-  };
+  }, [state.isAuthenticated, state.user]);
 
-  const value = {
+  const value = useMemo(() => ({
     ...state,
     login,
     register,
@@ -250,7 +250,7 @@ export const AuthProvider = ({ children }) => {
     hasRole,
     canAccess,
     loadUser
-  };
+  }), [state, login, register, googleLogin, logout, updateProfile, changePassword, clearErrors, hasRole, canAccess, loadUser]);
 
   return (
     <AuthContext.Provider value={value}>

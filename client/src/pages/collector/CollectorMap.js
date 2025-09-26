@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Alert, Modal, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Button, Badge, Alert, Modal } from 'react-bootstrap';
 
 const CollectorMap = () => {
   const [bins, setBins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBin, setSelectedBin] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [mapCenter, setMapCenter] = useState({ lat: 28.6139, lng: 77.2090 });
+  const [mapCenter] = useState({ lat: 28.6139, lng: 77.2090 });
   const [userLocation, setUserLocation] = useState(null);
-  const mapRef = useRef(null);
 
   useEffect(() => {
     // Simulate loading bin data

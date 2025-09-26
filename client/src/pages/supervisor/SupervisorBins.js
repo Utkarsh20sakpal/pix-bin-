@@ -21,6 +21,7 @@ const SupervisorBins = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchBins(); }, []);
 
   const updateStatus = async (binId, status) => {
@@ -49,9 +50,9 @@ const SupervisorBins = () => {
           <Card className="shadow-sm">
             <Card.Body>
               <Form className="row g-3 align-items-end">
-                <Form.Group className="col-md-3">
+                <Form.Group className="col-md-3" controlId="filterStatus">
                   <Form.Label>Status</Form.Label>
-                  <Form.Select value={filters.status} onChange={(e)=>setFilters({...filters,status:e.target.value})}>
+                  <Form.Select value={filters.status} onChange={(e)=>setFilters({...filters,status:e.target.value})} autoComplete="section-filters status">
                     <option value="">All</option>
                     <option value="active">Active</option>
                     <option value="maintenance">Maintenance</option>
@@ -60,9 +61,9 @@ const SupervisorBins = () => {
                     <option value="offline">Offline</option>
                   </Form.Select>
                 </Form.Group>
-                <Form.Group className="col-md-3">
+                <Form.Group className="col-md-3" controlId="filterWasteType">
                   <Form.Label>Waste Type</Form.Label>
-                  <Form.Select value={filters.wasteType} onChange={(e)=>setFilters({...filters,wasteType:e.target.value})}>
+                  <Form.Select value={filters.wasteType} onChange={(e)=>setFilters({...filters,wasteType:e.target.value})} autoComplete="section-filters waste-type">
                     <option value="">All</option>
                     <option value="organic">Organic</option>
                     <option value="plastic">Plastic</option>
@@ -73,9 +74,9 @@ const SupervisorBins = () => {
                     <option value="mixed">Mixed</option>
                   </Form.Select>
                 </Form.Group>
-                <Form.Group className="col-md-3">
+                <Form.Group className="col-md-3" controlId="filterFillLevel">
                   <Form.Label>Fill Level</Form.Label>
-                  <Form.Select value={filters.fillLevel} onChange={(e)=>setFilters({...filters,fillLevel:e.target.value})}>
+                  <Form.Select value={filters.fillLevel} onChange={(e)=>setFilters({...filters,fillLevel:e.target.value})} autoComplete="section-filters fill-level">
                     <option value="">All</option>
                     <option value="1">Below 25%</option>
                     <option value="2">25-49%</option>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, Spinner, Table } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -71,16 +71,7 @@ const UserFeedback = () => {
     return <span className={`badge bg-${config.variant}`}>{config.text}</span>;
   };
 
-  const getPriorityBadge = (priority) => {
-    const priorityConfig = {
-      low: { variant: 'success', text: 'Low' },
-      medium: { variant: 'warning', text: 'Medium' },
-      high: { variant: 'danger', text: 'High' },
-      urgent: { variant: 'dark', text: 'Urgent' }
-    };
-    const config = priorityConfig[priority] || { variant: 'secondary', text: priority };
-    return <span className={`badge bg-${config.variant}`}>{config.text}</span>;
-  };
+  // Removed unused getPriorityBadge helper
 
   if (loading) {
     return (
@@ -113,12 +104,13 @@ const UserFeedback = () => {
               {error && <Alert variant="danger">{error}</Alert>}
               
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="feedbackCategory">
                   <Form.Label>Category</Form.Label>
                   <Form.Select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
+                    autoComplete="section-feedback category"
                     required
                   >
                     <option value="website">Website</option>
@@ -129,7 +121,7 @@ const UserFeedback = () => {
                   </Form.Select>
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="feedbackSubject">
                   <Form.Label>Subject</Form.Label>
                   <Form.Control
                     type="text"
@@ -137,12 +129,13 @@ const UserFeedback = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     placeholder="Brief description of your feedback"
+                    autoComplete="section-feedback subject"
                     required
                     maxLength={100}
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" controlId="feedbackMessage">
                   <Form.Label>Message</Form.Label>
                   <Form.Control
                     as="textarea"
@@ -151,6 +144,7 @@ const UserFeedback = () => {
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Detailed description of your feedback or issue"
+                    autoComplete="section-feedback message"
                     required
                     maxLength={1000}
                   />

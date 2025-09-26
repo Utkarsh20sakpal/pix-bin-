@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,11 +9,8 @@ const UserLeaderboard = () => {
   const [error, setError] = useState(null);
   const [leaderboardType, setLeaderboardType] = useState('waste');
 
-  useEffect(() => {
-    fetchLeaderboard();
-  }, [leaderboardType]);
-
-  const fetchLeaderboard = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchLeaderboard = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/user/leaderboard?type=${leaderboardType}`);
@@ -24,7 +21,11 @@ const UserLeaderboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [leaderboardType]);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
 
   const getRankIcon = (rank) => {
     if (rank === 1) return '🥇';

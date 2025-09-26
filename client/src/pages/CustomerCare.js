@@ -194,21 +194,21 @@ const CustomerCare = () => {
                   {sentMsg && <Alert variant="success" className="text-start">{sentMsg}</Alert>}
                   {sendError && <Alert variant="danger" className="text-start">{sendError}</Alert>}
                   <Form onSubmit={sendEmail} className="text-start">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="careName">
                       <Form.Label>Your Name</Form.Label>
-                      <Form.Control name="name" value={form.name} onChange={handleInput} required />
+                      <Form.Control name="name" value={form.name} onChange={handleInput} autoComplete="name" required />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="careEmail">
                       <Form.Label>Your Email</Form.Label>
-                      <Form.Control type="email" name="email" value={form.email} onChange={handleInput} required />
+                      <Form.Control type="email" name="email" value={form.email} onChange={handleInput} autoComplete="email" required />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="careSubject">
                       <Form.Label>Subject</Form.Label>
-                      <Form.Control name="subject" value={form.subject} onChange={handleInput} required />
+                      <Form.Control name="subject" value={form.subject} onChange={handleInput} autoComplete="section-support subject" required />
                     </Form.Group>
-                    <Form.Group className="mb-4">
+                    <Form.Group className="mb-4" controlId="careMessage">
                       <Form.Label>Message</Form.Label>
-                      <Form.Control as="textarea" rows={5} name="message" value={form.message} onChange={handleInput} required minLength={10} />
+                      <Form.Control as="textarea" rows={5} name="message" value={form.message} onChange={handleInput} autoComplete="section-support message" required minLength={10} />
                     </Form.Group>
                     <div className="d-grid">
                       <Button type="submit" variant="primary" disabled={sending}>

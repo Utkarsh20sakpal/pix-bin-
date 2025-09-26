@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Form, Table, Button, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -15,11 +15,8 @@ const UserHistory = () => {
   });
   const [pagination, setPagination] = useState({});
 
-  useEffect(() => {
-    fetchRecords();
-  }, [filters]);
-
-  const fetchRecords = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchRecords = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -36,7 +33,11 @@ const UserHistory = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    fetchRecords();
+  }, [fetchRecords]);
 
   const handleFilterChange = (e) => {
     setFilters({
@@ -82,12 +83,13 @@ const UserHistory = () => {
         <Card.Body>
           <Row>
             <Col md={3}>
-              <Form.Group>
+              <Form.Group controlId="historyWasteType">
                 <Form.Label>Waste Type</Form.Label>
                 <Form.Select
                   name="wasteType"
                   value={filters.wasteType}
                   onChange={handleFilterChange}
+                  autoComplete="section-history waste-type"
                 >
                   <option value="">All Types</option>
                   {wasteTypes.map(type => (
@@ -99,24 +101,26 @@ const UserHistory = () => {
               </Form.Group>
             </Col>
             <Col md={3}>
-              <Form.Group>
+              <Form.Group controlId="historyStartDate">
                 <Form.Label>Start Date</Form.Label>
                 <Form.Control
                   type="date"
                   name="startDate"
                   value={filters.startDate}
                   onChange={handleFilterChange}
+                  autoComplete="section-history start-date"
                 />
               </Form.Group>
             </Col>
             <Col md={3}>
-              <Form.Group>
+              <Form.Group controlId="historyEndDate">
                 <Form.Label>End Date</Form.Label>
                 <Form.Control
                   type="date"
                   name="endDate"
                   value={filters.endDate}
                   onChange={handleFilterChange}
+                  autoComplete="section-history end-date"
                 />
               </Form.Group>
             </Col>

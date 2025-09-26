@@ -63,16 +63,16 @@ const SupervisorCollectors = () => {
           <Card className="shadow-sm">
             <Card.Body>
               <Form className="row g-3 align-items-end">
-                <Form.Group className="col-md-4">
+                <Form.Group className="col-md-4" controlId="assignCollector">
                   <Form.Label>Collector</Form.Label>
-                  <Form.Select value={assign.collectorId} onChange={(e)=>setAssign({...assign,collectorId:e.target.value})}>
+                  <Form.Select name="collectorId" value={assign.collectorId} onChange={(e)=>setAssign({...assign,collectorId:e.target.value})} autoComplete="section-assign collector">
                     <option value="">Select collector</option>
                     {collectors.map(c=> <option key={c._id} value={c._id}>{c.name} ({c.email})</option>)}
                   </Form.Select>
                 </Form.Group>
-                <Form.Group className="col-md-6">
+                <Form.Group className="col-md-6" controlId="assignBinIds">
                   <Form.Label>Bin IDs (comma separated)</Form.Label>
-                  <Form.Control placeholder="BIN001, BIN002" value={assign.binIds} onChange={(e)=>setAssign({...assign,binIds:e.target.value})} />
+                  <Form.Control name="binIds" placeholder="BIN001, BIN002" value={assign.binIds} onChange={(e)=>setAssign({...assign,binIds:e.target.value})} autoComplete="section-assign bin-ids" />
                 </Form.Group>
                 <div className="col-md-2 text-md-end">
                   <Button variant="primary" disabled={!assign.collectorId || !assign.binIds || sending} onClick={assignBins}>

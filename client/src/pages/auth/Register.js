@@ -27,7 +27,7 @@ const Register = () => {
 
   useEffect(() => {
     clearErrors();
-  }, []);
+  }, [clearErrors]);
 
   const handleChange = (e) => {
     setFormData({
@@ -87,7 +87,7 @@ const Register = () => {
                 )}
 
                 <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="registerName">
                     <Form.Label>Full Name</Form.Label>
                     <Form.Control
                       type="text"
@@ -95,11 +95,12 @@ const Register = () => {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Enter your full name"
+                      autoComplete="name"
                       required
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="registerEmail">
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control
                       type="email"
@@ -107,16 +108,18 @@ const Register = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Enter your email"
+                      autoComplete="email"
                       required
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="registerUserType">
                     <Form.Label>User Type</Form.Label>
                     <Form.Select
                       name="userType"
                       value={formData.userType}
                       onChange={handleChange}
+                      autoComplete="section-register user-type"
                       required
                     >
                       <option value="user">User</option>
@@ -128,7 +131,7 @@ const Register = () => {
                     </Form.Text>
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="registerPassword">
                     <Form.Label>Password</Form.Label>
                     <div className="position-relative">
                       <Form.Control
@@ -137,6 +140,7 @@ const Register = () => {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Create a password"
+                        autoComplete="new-password"
                         required
                         minLength={6}
                       />
@@ -154,7 +158,7 @@ const Register = () => {
                     </Form.Text>
                   </Form.Group>
 
-                  <Form.Group className="mb-4">
+                  <Form.Group className="mb-4" controlId="registerConfirmPassword">
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                       type="password"
@@ -162,6 +166,7 @@ const Register = () => {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       placeholder="Confirm your password"
+                      autoComplete="new-password"
                       required
                     />
                     {formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword && (

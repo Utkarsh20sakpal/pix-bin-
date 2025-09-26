@@ -26,7 +26,7 @@ const Login = () => {
 
   useEffect(() => {
     clearErrors();
-  }, []);
+  }, [clearErrors]);
 
   const handleChange = (e) => {
     setFormData({
@@ -79,7 +79,7 @@ const Login = () => {
                 )}
 
                 <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="loginEmail">
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control
                       type="email"
@@ -87,11 +87,12 @@ const Login = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Enter your email"
+                      autoComplete="email"
                       required
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-3" controlId="loginPassword">
                     <Form.Label>Password</Form.Label>
                     <div className="position-relative">
                       <Form.Control
@@ -100,6 +101,7 @@ const Login = () => {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Enter your password"
+                        autoComplete="current-password"
                         required
                       />
                       <Button
